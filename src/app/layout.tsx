@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import { ThemeProvider } from "next-themes";
 import "./globals.css";
+import { Toaster } from "@/components/ui/toaster";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -14,9 +16,9 @@ const geistMono = localFont({
 export const metadata: Metadata = {
   title: {
     template: "%s | bugbook",
-    default: "bugbook"
+    default: "bugbook",
   },
-  description: "The actual twatta replacement",
+  description: "The actual bird-app replacement",
 };
 
 export default function RootLayout({
@@ -27,9 +29,15 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        <div className="flex flex-col h-screen">
-          {children}
-        </div>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <div className="flex h-screen flex-col">{children}</div>
+        </ThemeProvider>
+        <Toaster />
       </body>
     </html>
   );
